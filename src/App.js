@@ -4,6 +4,7 @@ import './App.css';
 // import theme from './theme/theme';
 // import { Button, TextField } from '@material-ui/core';
 import SignUp from './componentes/Seguridad/SignUp';
+import SignIn from './componentes/Seguridad/SignIn';
 //Componente React (Retorno un componente grafico)
 //Utilizamos props para obtener los atributos del componente padre
 function App() {
