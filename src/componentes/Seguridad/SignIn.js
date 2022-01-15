@@ -3,8 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -12,23 +10,25 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import { loginUsuario } from '../../actions/UsuarioAction';
 
 const theme = createTheme();
 
 export default function SignIn() {
+
+  const [usuario, setUsuario] = React.useState({
+    Email    : '',
+    Password : ''
+  })
+
+  const ingresarValoresMemoria = e => {
+    const {name, value} = e.target;
+    setUsuario(anterior => ({
+      ...anterior,
+      [name] : value
+    }))
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -38,6 +38,14 @@ export default function SignIn() {
       password: data.get('password'),
     });
   };
+
+  const loginUsuarioBoton = e => {
+    e.preventDefault();
+    loginUsuario(usuario).then(response => {
+      console.log('Login exitoso', response);
+      window.localStorage.setItem("token_seguridad", response.data.token);
+    })
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -55,7 +63,7 @@ export default function SignIn() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Iniciar Sesión
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -64,31 +72,32 @@ export default function SignIn() {
               fullWidth
               id="email"
               label="Email"
-              name="email"
+              name="Email"
               autoComplete="email"
               autoFocus
+              value={usuario.Email}
+              onChange={ingresarValoresMemoria}
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="password"
+              name="Password"
               label="Password"
               type="password"
               id="password"
               autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              value={usuario.Password}
+              onChange={ingresarValoresMemoria}
             />
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={loginUsuarioBoton}
             >
-              Sign In
+              Iniciar
             </Button>
             <Grid container>
               <Grid item xs>
@@ -104,7 +113,6 @@ export default function SignIn() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );

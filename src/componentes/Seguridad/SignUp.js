@@ -10,6 +10,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { registrarUsuario } from '../../actions/UsuarioAction';
   
   const theme = createTheme();
   
@@ -27,11 +28,30 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
     const [usuario, setUsuario] = React.useState({
       Nombre : '',
       Apellidos : '',
-      UserName : '',
+      Username : '',
       Email : '',
       Password : '',
       ConfirmarPassword : ''
     });
+
+    const ingresarValoresMemoria = cajaTexto => {
+      const {name, value} = cajaTexto.target;
+      setUsuario( anterior => ({
+        ...anterior,
+        [name] : value
+        //Nombre
+      }))
+    }
+
+    //Registrar Usuario
+    const registrarUsuarioBoton = e => {
+      e.preventDefault();
+      registrarUsuario(usuario).then(response => {
+        console.log('Se registro exitosamente el usuario', response);
+        //Registrar Token en el Navegador
+        window.localStorage.setItem("token_seguridad", response.data.token);
+      });
+    }
   
     return (
       <ThemeProvider theme={theme}>
@@ -49,7 +69,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign up
+              Registrar Usuario
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
               <Grid container spacing={2}>
@@ -62,6 +82,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
                     id="nombre"
                     label="Nombre"
                     autoFocus
+                    onChange={ingresarValoresMemoria}
+                    value={usuario.Nombre}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -72,6 +94,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
                     label="Apellidos"
                     name="Apellidos"
                     autoComplete="family-name"
+                    onChange={ingresarValoresMemoria}
+                    value={usuario.Apellidos}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -82,6 +106,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
                     label="Nombre de Usuario"
                     name="Username"
                     autoComplete="family-name"
+                    onChange={ingresarValoresMemoria}
+                    value={usuario.Username}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -92,6 +118,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
                     label="Email"
                     name="Email"
                     autoComplete="email"
+                    onChange={ingresarValoresMemoria}
+                    value={usuario.Email}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -103,6 +131,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
                     type="password"
                     id="password"
                     autoComplete="new-password"
+                    onChange={ingresarValoresMemoria}
+                    value={usuario.Password}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -114,6 +144,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
                     type="password"
                     id="ConfirmarPassword"
                     autoComplete="new-password"
+                    onChange={ingresarValoresMemoria}
+                    value={usuario.ConfirmarPassword}
                   />
                 </Grid>
               </Grid>
@@ -122,18 +154,14 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                onClick={registrarUsuarioBoton}
               >
-                Iniciar
+                Registrarse
               </Button>
-              <Grid container justifyContent="space-between">
+              <Grid container justifyContent="center">
                 <Grid item>
                   <Link href="#">
-                    Crear una cuenta
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#">
-                    Olvidaste tu contraseña?
+                    Ya tienes una cuenta?
                   </Link>
                 </Grid>
               </Grid>
