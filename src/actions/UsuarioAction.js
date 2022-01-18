@@ -9,14 +9,36 @@ export const registrarUsuario = usuario => {
     })
 }
 
-//TODO: Obtener Usuario actual
+//TODO: Obtener Usuario 
+// export const obtenerUsuarioActual = (dispatch) => {
+//     return new Promise((resolve, eject) => {
+//         HttpClient.get('/usuario').then((response) => {
+//             //Llamar al reducer
+//             dispatch({
+//                 type        : "INICIAR_SESION",
+//                 sesion      : response.data,
+//                 autenticado : true
+//             });
+//             resolve(response);
+//         })
+//     });
+// };
 //TODO: Actuazlizar Usuario
-
+// export const actualizarUsuario = (usuario) => {
+//     return new Promise((resolve, eject) => {
+//         HttpClient.put('/usuario', usuario).then(response => {
+//             resolve(response);
+//         })
+//         .catch(error => {
+//             resolve(error.response)
+//         })
+//     })
+// }
 //Logear Usuario
 export const loginUsuario = usuario => {
-    return Promise((resolve, reject) => {
+    return new Promise((resolve, eject) => {
         HttpClient.post("/usuario/login", usuario).then(response => {
             resolve(response);
-        });
+        })
     });
-}
+};

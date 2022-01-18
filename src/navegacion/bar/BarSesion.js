@@ -1,6 +1,7 @@
 import { Button, IconButton, Toolbar, Typography } from '@mui/material';
 import { makeStyles } from '@material-ui/core';
 import React from 'react';
+import { useStateValue } from '../../context/store';
 
 //Librerias Responsive de Material-Desing
 const usesStyles = makeStyles((theme) => ({
@@ -23,6 +24,8 @@ const usesStyles = makeStyles((theme) => ({
 
 const BarSesion = () => {
     const classes = usesStyles();
+    //Invocar variables globales
+    const [{sesionUsuario}, dispatch] = useStateValue();
 
     return (
         <Toolbar>
@@ -33,7 +36,7 @@ const BarSesion = () => {
             <div className={classes.grow}></div>
             <div className={classes.seccionDesktop}>
                 <Button color="inherit">Salir</Button>
-                <Button color="inherit">{"Nombre de usuario"}</Button>
+                <Button color="inherit">{sesionUsuario ? sesionUsuario.usuario.nombre : ""}</Button>
             </div>
             <div className={classes.seccionMobile}>
                 <IconButton color="inherit">
