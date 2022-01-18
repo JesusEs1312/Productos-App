@@ -2,7 +2,7 @@ import './App.css';
 import SignUp from './componentes/Seguridad/SignUp';
 import SignIn from './componentes/Seguridad/SignIn';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import { Grid, Snackbar } from '@mui/material';
+import { Alert, Grid, Snackbar } from '@mui/material';
 import AppNavBar from './navegacion/AppNavBar';
 import { useStateValue } from './context/store';
 import React, { useEffect, useState } from 'react';
@@ -17,17 +17,17 @@ function App() {
   //Variable local para saber si el usuario obtuvo la data
   const [iniciaApp, setIniciaApp] = useState(false);
   //Funcion para cuando inicie el componente
-  // useEffect(() =>{
-  //   if(!iniciaApp)
-  //   {
-  //     //Obtener valor de usuario actual
-  //     obtenerUsuarioActual(dispatch).then(response => {
-  //       setIniciaApp(true);
-  //     }).catch(error => {
-  //       setIniciaApp(true)
-  //     })
-  //   }
-  // }, [iniciaApp]);
+  useEffect(() =>{
+    if(!iniciaApp)
+    {
+      //Obtener valor de usuario actual
+      obtenerUsuarioActual(dispatch).then(response => {
+        setIniciaApp(true);
+      }).catch(error => {
+        setIniciaApp(true)
+      })
+    }
+  }, [iniciaApp]);
 
   return (
     <React.Fragment>
@@ -36,20 +36,20 @@ function App() {
         open={openSnackBar ? openSnackBar.open : false}
         autoHideDuration={3000}
         ContentProps={{"aria-describedby": "message-id"}}
-        message = {
-          <span id="message-id">{openSnackBar ? openSnackBar.mensaje : ""}</span>
-        }
         onClose = {() => 
           dispatch({
             type:"OPEN_SNACKBAR",
             openMensaje : {
               open : false,
+              typeMessage : "",
               mensaje : ""
             },
           })
         }
       >
-
+        <Alert severity={openSnackBar.typeMessage} sx={{width: '100%'}}>
+          <span id="message-id">{openSnackBar ? openSnackBar.mensaje : ""}</span>
+        </Alert>
       </Snackbar>
       <Router>
         <Grid container>
@@ -58,7 +58,7 @@ function App() {
             <Route path="/auth/signIn" element={<SignIn/>}></Route>
             <Route path="/auth/signUp" element={<SignUp />}></Route>
             <Route path="/" element={<SignIn />}></Route>
-            {/* <Route path="/auth/perfil" element={<Perfil />}></Route> */}
+            <Route path="/auth/perfil" element={<Perfil />}></Route>
           </Routes>
         </Grid>
       </Router>
