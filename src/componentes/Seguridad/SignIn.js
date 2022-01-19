@@ -11,10 +11,14 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { loginUsuario } from '../../actions/UsuarioAction';
+import { useNavigate } from 'react-router';
+import { useStateValue } from '../../context/store';
 
 const theme = createTheme();
 
 export default function SignIn() {
+  const navigate = useNavigate();
+  const [{usuarioSesion}, dispatch] = useStateValue();
 
   const [usuario, setUsuario] = React.useState({
     Email    : '',
@@ -41,9 +45,20 @@ export default function SignIn() {
 
   const loginUsuarioBoton = e => {
     e.preventDefault();
-    loginUsuario(usuario).then(response => {
-      console.log('Login exitoso', response);
-      window.localStorage.setItem("token_seguridad", response.data.token);
+    loginUsuario(usuario, dispatch).then(response => {
+      if(response.status == 200){
+        window.localStorage.setItem("token_seguridad", response.data.token);
+        navigate("/auth/perfil");
+      } else {
+        dispatch({
+          type : "OPEN_SNACKBAR",
+          openMensaje : {
+            open : true,
+            typeMessage : "error",
+            mensaje :  "Credenciales Incorrectas!"
+          }
+        });
+      }
     })
   }
 
@@ -100,12 +115,12 @@ export default function SignIn() {
               Iniciar
             </Button>
             <Grid container>
-              <Grid item xs>
+              <Grid item xs={6} justifyItems="center" justifyContent="center">
                 <Link href="#" variant="body2">
                   Olvidaste tu contraseña?
                 </Link>
               </Grid>
-              <Grid item>
+              <Grid item xs={6} justifyItems="center" justifyContent="center">
                 <Link href="#" variant="body2">
                   {"Aun no tienes una cuenta?"}
                 </Link>
