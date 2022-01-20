@@ -8,7 +8,7 @@ import { useStateValue } from './context/store';
 import React, { useEffect, useState } from 'react';
 import { obtenerUsuarioActual } from './actions/UsuarioAction';
 import Perfil from './componentes/Seguridad/Perfil';
-import RutaSegura from './navegacion/RutaSegura';
+import { NuevoProducto } from './componentes/productos/NuevoProducto';
 
 //Componente React (Retorno un componente grafico)
 //Utilizamos props para obtener los atributos del componente padre
@@ -60,6 +60,7 @@ function App() {
             <Route path="/auth/signUp" element={<SignUp />}></Route>
             <Route path="/" element={<SignIn />}></Route>
             <Route path={sesionUsuario ? "/auth/perfil" : "/"} element={sesionUsuario ? <Perfil /> : <SignIn/>}></Route>
+            <Route path={sesionUsuario ? "/producto/nuevo" : "/"} element={sesionUsuario ? <NuevoProducto /> : <SignIn/>}></Route>
           </Routes>
         </Grid>
       </Router>
