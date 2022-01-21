@@ -6,6 +6,7 @@ export const initialState = {
         apellidos         : '',
         email             : '',
         username          : '',
+        productoId        : ''
     },
     autenticado : false
 }

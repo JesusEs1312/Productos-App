@@ -65,6 +65,10 @@ const BarSesion = (props) => {
     const abrirMenuDerechaAction = () => {
         setAbrirMenuDerecha(true);
     }
+     const rutas = (ruta) =>{
+         navigate(ruta, {replace: true});
+     }
+
     return (
         <React.Fragment>
             {/*-------------- Menu Izquierdo --------- */}
@@ -74,18 +78,18 @@ const BarSesion = (props) => {
                 anchor = "left">
                 <div className={classes.list} onKeyDown={cerrarMenuIzquierda} onClick={cerrarMenuIzquierda}>
                     <List>
-                        <ListItem components={Link} button to="/auth/perfil">
+                        <ListItem button onClick={() => rutas("/auth/perfil")}>
                             <AccountBoxIcon/>
-                            <ListItemText classes={{primary : classes.listItemText}} primary="Perfil"/>
+                            <ListItemText classes={{primary : classes.listItemText}} primary="Perfil" />
                         </ListItem>
                     </List>
                     <Divider/>
                     <List>
-                        <ListItem components={Link} button to="/producto/nuevo">
+                        <ListItem button onClick={() => rutas("/producto/nuevo")}>
                             <AddShoppingCartIcon/>
                             <ListItemText classes={{primary : classes.listItemText}} primary="Nuevo Producto"/>
                         </ListItem>
-                        <ListItem components={Link} button to="/producto/lista">
+                        <ListItem button onClick={() => rutas("/producto/lista")}>
                             <InventoryIcon/>
                             <ListItemText classes={{primary : classes.listItemText}} primary="Lista Productos"/>
                         </ListItem>

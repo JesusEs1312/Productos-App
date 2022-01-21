@@ -1,36 +1,28 @@
 import { Avatar, Button, Container, Grid, TextField, Typography } from '@mui/material'
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
-import React, { useState } from 'react'
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import React, { useEffect, useState } from 'react'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { guardarProducto } from '../../actions/ProductoAction';
+import { editarProducto, obtenerPorductoPorId } from '../../actions/ProductoAction';
 import { useStateValue } from '../../context/store';
+import EditIcon from '@mui/icons-material/Edit';
+import { useNavigate } from 'react-router';
 
 
 const theme = createTheme();
 
-export const NuevoProducto = () => {
+export const Editar = () => {
 
     const [{sesionUsuario}, dispatch] = useStateValue();
+    const navigate = useNavigate();
 
     const [producto, setProducto] = useState({
         nombre : "",
         marca : "",
         fabricante : "",
-        precio : "",
+        precio : 0,
         codigo_barra : ""
     });
-
-    const resetearForm = () => {
-        setProducto({
-            nombre : "",
-            marca : "",
-            fabricante : "",
-            precio : "",
-            codigo_barra : ""
-        });
-    }
 
     const ingresarValoresMemoria = ct => {
         const {name, value} = ct.target;
@@ -40,39 +32,18 @@ export const NuevoProducto = () => {
         }));
     }
 
-    const guardarProductoBoton = e => {
+    useEffect(() =>{
+        obtenerPorductoPorId(sesionUsuario.usuario.productoId).then(response =>{
+            setProducto(response.data);
+        });
+    }, [])
+
+    const actualizarProductoBoton = e => {
         e.preventDefault();
-        const objetoProducto = {
-            nombre : producto.nombre,
-            marca  : producto.marca,
-            fabricante : producto.fabricante,
-            precio : parseFloat(producto.precio || 0.0),
-            codigo_barra : producto.codigo_barra
-        };
-
-        guardarProducto(objetoProducto).then(respuesta => {
-            let mensaje = "";
-            let success = false;
-            if (respuesta.status == 200) 
-            {
-                mensaje = "Se guardo correctamente el producto! :)";
-                success = true;
-                resetearForm();
+        editarProducto(producto, sesionUsuario.usuario.productoId).then(response => {
+            if(response.status == 200){
+                navigate("/producto/lista", {replace : true});
             }
-            else 
-            {
-                mensaje = "No se pudo guardar el producto";
-                success = false;
-            }
-
-            dispatch({
-                type : "OPEN_SNACKBAR",
-                openMensaje : {
-                    open        : true,
-                    typeMessage : success ? "success" : "error",
-                    mensaje     : mensaje 
-                }
-            });
         });
     }
 
@@ -90,12 +61,12 @@ export const NuevoProducto = () => {
                 />
                 <Grid container justifyContent="center">
                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <AddShoppingCartIcon />
+                        <EditIcon />
                     </Avatar>
                 </Grid>
                 <Grid container justifyContent="center">
                     <Typography container component="h1" variant="h5" color="GrayText">
-                        Registro de Nuevo Producto
+                        Editar Producto
                     </Typography>
                 </Grid>
                 <Box component="form" noValidate sx={{ mt: 3 }}>
@@ -154,9 +125,9 @@ export const NuevoProducto = () => {
                                 sx={{ mt: 3, mb: 2 }}
                                 color="primary"
                                 size="large"
-                                onClick={guardarProductoBoton}
+                                onClick={actualizarProductoBoton}
                             >
-                                Guardar Producto
+                                Editar Producto
                             </Button>
                     </Grid>
                 </Box>
@@ -165,4 +136,4 @@ export const NuevoProducto = () => {
     );
 }
 
-export default NuevoProducto;
+export default Editar;
