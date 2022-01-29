@@ -8,7 +8,7 @@ export const initialState = {
         username          : '',
         productoId        : ''
     },
-    autenticado : false
+    autenticado : true
 }
 
 //Data que va a modificarse
@@ -20,6 +20,12 @@ const sesionUsuarioReducer = (state = initialState, action) => {
                 usuario     : action.sesion,
                 autenticado : action.autenticado
             };
+        case "NUEVA_CONTRASEÑA" :
+            return {
+                ...state,
+                usuario : action.nuevaContraseña,
+                autenticado : action.autenticado
+            }
         case "SALIR_SESION" :
             return {
                 ...state,

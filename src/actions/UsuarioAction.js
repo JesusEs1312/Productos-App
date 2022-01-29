@@ -55,3 +55,41 @@ export const loginUsuario = (usuario, dispatch) => {
         });
     });
 };
+
+export const recuperarContraseña = (emails, dispatch) => {
+    return new Promise((resolve, eject) => {
+        instancia.put("/usuario/actualizarContrasena", emails).then(response => {
+            dispatch({
+                type : "NUEVA_CONTRASEÑA",
+                sesion : response.data,
+                autenticado : false
+            })
+            resolve(response);
+        })
+        .catch(error => {
+            resolve(error.response.data.errores);
+        })
+    })
+}
+
+export const validarCodigo = (codigos) => {
+    return new Promise((resolve, eject) => {
+        instancia.post("/usuario/validarCodigo", codigos).then(response => {
+            resolve(response);
+        })
+        .catch(error => {
+            resolve(error.response.data.errores);
+        })
+    })
+}
+
+export const nuevaContra = (contras) => {
+    return new Promise((resolve, eject) => {
+        instancia.post("/usuario/nuevaContra", contras).then(response => {
+            resolve(response);
+        })
+        .catch(error => {
+            resolve(error.response.data.errores);
+        })
+    })
+}

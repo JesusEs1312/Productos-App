@@ -1,6 +1,7 @@
 {
   "name": "productos-app",
   "version": "0.1.0",
+  "homepage": "http://10.0.1.11/productos/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.7.1",

@@ -60,7 +60,7 @@ const BarSesion = (props) => {
             nuevoUsuario : null,
             autenticado : false
         })
-        navigate("/auth/signIn", {replace: true});
+        navigate("/productos/auth/signIn", {replace: true});
     }
     const abrirMenuDerechaAction = () => {
         setAbrirMenuDerecha(true);
@@ -78,18 +78,18 @@ const BarSesion = (props) => {
                 anchor = "left">
                 <div className={classes.list} onKeyDown={cerrarMenuIzquierda} onClick={cerrarMenuIzquierda}>
                     <List>
-                        <ListItem button onClick={() => rutas("/auth/perfil")}>
+                        <ListItem button onClick={() => rutas("/productos/auth/perfil")}>
                             <AccountBoxIcon/>
                             <ListItemText classes={{primary : classes.listItemText}} primary="Perfil" />
                         </ListItem>
                     </List>
                     <Divider/>
                     <List>
-                        <ListItem button onClick={() => rutas("/producto/nuevo")}>
+                        <ListItem button onClick={() => rutas("/productos/producto/nuevo")}>
                             <AddShoppingCartIcon/>
                             <ListItemText classes={{primary : classes.listItemText}} primary="Nuevo Producto"/>
                         </ListItem>
-                        <ListItem button onClick={() => rutas("/producto/lista")}>
+                        <ListItem button onClick={() => rutas("/productos/producto/lista")}>
                             <InventoryIcon/>
                             <ListItemText classes={{primary : classes.listItemText}} primary="Lista Productos"/>
                         </ListItem>

@@ -155,7 +155,7 @@ import { useNavigate } from 'react-router';
     
     const abrirEditar = (id) =>{
         sesionUsuario.usuario.productoId = id;
-        navigate("/producto/editar",{replace : true});
+        navigate("/productos/producto/editar",{replace : true});
     }
     return (
         <Grid container justifyContent="center" paddingTop={8}>

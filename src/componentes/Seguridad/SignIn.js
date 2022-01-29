@@ -116,12 +116,12 @@ export default function SignIn() {
             </Button>
             <Grid container>
               <Grid item xs={6} justifyItems="center" justifyContent="center">
-                <Link href="#" variant="body2">
+                <Link href="/usuario/recuperarContra" variant="body2">
                   Olvidaste tu contraseña?
                 </Link>
               </Grid>
               <Grid item xs={6} justifyItems="center" justifyContent="center">
-                <Link href="#" variant="body2">
+                <Link href="/auth/signUp" variant="body2">
                   {"Aun no tienes una cuenta?"}
                 </Link>
               </Grid>

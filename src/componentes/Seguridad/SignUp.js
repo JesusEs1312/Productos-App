@@ -160,7 +160,7 @@ import { registrarUsuario } from '../../actions/UsuarioAction';
               </Button>
               <Grid container justifyContent="center">
                 <Grid item>
-                  <Link href="#">
+                  <Link href="/productos/auth/signIn">
                     Ya tienes una cuenta?
                   </Link>
                 </Grid>
